@@ -13,7 +13,6 @@ try:
                 "stuName varchar(12),/"
                 "absentNumber int default 0);")
     # 关闭游标
-
     cur.close()
     # 关闭数据库连接
     conn.close()
