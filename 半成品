@@ -1,0 +1,40 @@
+    import pymysql
+    # 连接数据库
+    DBHOST ='localhost'
+    DBUSER ='root'
+    DBPASS ='123456'
+    DBNAME ='DB'
+    try:
+         db=pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
+         print('数据库成功连接')
+         cur=db.cursor() #声明游标
+         cur.execute("DROP TABLE IF EXISTS Student")
+         sql='create table Course1(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
+         sql='create table Course2(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
+         sql='create table Course3(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
+         sql='create table Course4(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
+         sql='create table Course5(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
+
+        L1 = random.sample(range(1, 270), 90)
+        for i in range(90):
+        sql='insert into course1(id,absenttimes,serialnum) VALUE ('+l1[i]+','+'
+        value=()
+        """
+        L2 = random.sample(range(1, 270), 90)
+        L3 = random.sample(range(1, 270), 90)
+        L4 = random.sample(range(1, 270), 90)
+        L5 = random.sample(range(1, 270), 90)
+        """
+        print(L1, end="\n")
+        """
+        print(L2,end="\n")
+        print(L3,end="\n")
+        print(L4,end="\n")
+        print(L5,end="\n")
+        """
+        absentNum = random.randint(5, 8)
+        absent1 = random.sample(L1, absentNum)
+        print(absent1, end="\n")
+
+        expect pymysql.Erroe as e:
+        print("数据库连接失败:"+str(e))
