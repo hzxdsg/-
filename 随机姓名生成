@@ -15,3 +15,4 @@ if __name__ == '__main__':
     for i in range(0,270):
      print(random_name())
      i+=1
+#随机的
