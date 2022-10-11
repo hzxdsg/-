@@ -67,7 +67,7 @@ try:
         effective_times = 0
         for k in range(1,21):   #生成第k次课点名名单
             f = open("course_"+str(i)+"第"+str(k)+"次点名名单.txt", "w+", encoding='utf-8')
-            selectNum = 8  #设置每次抽取的人数
+            selectNum = 10  #设置每次抽取的人数
             select_times += selectNum
             cs = 16  # 从缺席16次开始抽
             while selectNum > 0:
