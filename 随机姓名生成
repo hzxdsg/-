@@ -8,10 +8,4 @@ def random_name():
                        "洋", "刚", "万里", "爱民", "牧", "陆", "路", "昕", "鑫", "兵", "硕","风","博凯","徐坤","震","倩倩","鹏","均","达智","欣欣","易鹏","蕾蕾"]
         name = random.choice(first_name) + random.choice(second_name)
         return name
-
-
-if __name__ == '__main__':
-    i=0
-    for i in range(0,270):
-     print(random_name())
-     i+=1
+print(random_name(),end="\n")

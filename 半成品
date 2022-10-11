@@ -1,40 +1,64 @@
-    import pymysql
-    # 连接数据库
-    DBHOST ='localhost'
-    DBUSER ='root'
-    DBPASS ='123456'
-    DBNAME ='DB'
-    try:
-         db=pymysql.connect(DBHOST,DBUSER,DBPASS,DBNAME)
-         print('数据库成功连接')
-         cur=db.cursor() #声明游标
-         cur.execute("DROP TABLE IF EXISTS Student")
-         sql='create table Course1(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
-         sql='create table Course2(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
-         sql='create table Course3(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
-         sql='create table Course4(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
-         sql='create table Course5(id int unique,name varchar(20),absenttimes int default 0,serialnum int primary key )'
-
-        L1 = random.sample(range(1, 270), 90)
-        for i in range(90):
-        sql='insert into course1(id,absenttimes,serialnum) VALUE ('+l1[i]+','+'
-        value=()
-        """
-        L2 = random.sample(range(1, 270), 90)
-        L3 = random.sample(range(1, 270), 90)
-        L4 = random.sample(range(1, 270), 90)
-        L5 = random.sample(range(1, 270), 90)
-        """
-        print(L1, end="\n")
-        """
-        print(L2,end="\n")
-        print(L3,end="\n")
-        print(L4,end="\n")
-        print(L5,end="\n")
-        """
-        absentNum = random.randint(5, 8)
-        absent1 = random.sample(L1, absentNum)
-        print(absent1, end="\n")
-
-        expect pymysql.Erroe as e:
-        print("数据库连接失败:"+str(e))
+import pymysql
+ 
+# 使用python连接mysql数据库，并对数据库进行添加数据的方法
+# 创建连接，数据库主机地址 数据库用户名称 密码 数据库名 数据库端口 数据库字符集编码
+conn = pymysql.connect(host='127.0.0.1',
+                       user='root',
+                       password='123456',
+                       charset='utf8')
+print("连接成功")
+ 
+# 创建游标
+cursor = conn.cursor()
+ 
+# 添加一条数据数据
+def insertdata1():
+    insert_emp_sql = "insert into empdb.employee (ename,age,dept_id,wage_id) values ('王十八',45,1,3)"
+    # 执行语句
+    cursor.execute(insert_emp_sql)
+    # 提交数据
+    conn.commit()
+ 
+# 批量添加数据
+def insertdata2():
+    insert_emp_sql = "insert into empdb.employee (ename,age,dept_id,wage_id) values ('{}',{},1,3);"
+ 
+    # 插入10条数据0-9
+    for i in range(10):
+        uname = '高少少'+str(i)
+        age=30+i
+ 
+        ins_sql= insert_emp_sql.format(uname,age)
+        cursor.execute(ins_sql)
+        conn.commit()
+ 
+# 删除数据
+def deletedata(id):
+    delete_emp_sql = "delete from empdb.employee where eid={}"
+    del_sql = delete_emp_sql.format(id)
+    cursor.execute(del_sql)
+    conn.commit()
+ 
+ 
+# 更改数据
+def updatadata():
+    updata_emp_sql = "update empdb.employee set age=66 where eid = 26"
+    cursor.execute(updata_emp_sql)
+    conn.commit()
+ 
+# 关闭游标跟连接
+def closeconn():
+    # 关闭游标
+    cursor.close()
+    # 关闭连接
+    conn.close()
+ 
+try:
+    # insertdata1()
+    # insertdata2()
+    deletedata(1)
+    updatadata()
+except:
+    conn.rollback()
+ 
+closeconn()

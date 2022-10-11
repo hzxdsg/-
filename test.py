@@ -45,11 +45,11 @@ def create_table():
     return c
 
 # 连接数据库
-conn = pymysql.connect(host="localhost", user="root", password="123456",cursorclass=pymysql.cursors.DictCursor)
+conn = pymysql.connect(host="localhost", user="root",\
+                       password="123456",cursorclass=pymysql.cursors.DictCursor)
 try:
     # 创建游标
     cur = conn.cursor()
-    curcopy = conn.cursor()
     # 执行sql查询语句
     cur.execute("CREATE DATABASE IF NOT EXISTS DS;")
     cur.execute("USE DS;")
@@ -60,43 +60,17 @@ try:
         cur.execute("CREATE table course_"+str(i)+"(serialNum int primary key,"
                     "stuName varchar(20),stu_id int,absentNum int default 0);")
         for j in range(90):
-            cur.execute("INSERT INTO course_"+str(i)+"(serialNum,stuName,stu_id) "
-                          "VALUES("+str(j)+",'"+names[i][j]+"',"+str(ids[i][j])+");")
-        table = create_table()
-        select_times = 0
-        effective_times = 0
-        for k in range(1,21):   #生成第k次课点名名单
-            f = open("course_"+str(i)+"第"+str(k)+"次点名名单.txt", "w+", encoding='utf-8')
-            selectNum = 8  #设置每次抽取的人数
-            select_times += selectNum
-            cs = 16  # 从缺席16次开始抽
-            while selectNum > 0:
-                sql = "select * from course_"+str(i)+" where absentNum ="+str(cs)+";"
-                cur.execute(sql)
-                result = cur.fetchall()
-                count = cur.rowcount
-                if count != 0:
-                    if count <= selectNum:
-                        selectNum -= count
-                        for l in range(count):
-                            f.write(str(result[l]['stu_id'])+" "+result[l]['stuName']+"\n")
-                            if table[result[l]['serialNum']][k-1] == 1:
-                                effective_times += 1
-                                sql = "update course_" + str(i) + " set absentNum=absentNum+1\
-                                                                 where serialNum =" + str(result[l]['serialNum']) + ";"
-                                cur.execute(sql)
-                    elif count > selectNum:
-                        for l in range(selectNum):
-                            f.write(str(result[l]['stu_id']) + " " + result[l]['stuName'] + "\n")
-                            if table[result[l]['serialNum']][k-1] == 1:
-                                effective_times += 1
-                                sql = "update course_" + str(i) + " set absentNum=absentNum+1\
-                                                                 where serialNum =" + str(result[l]['serialNum']) + ";"
-                                cur.execute(sql)
-                        selectNum = 0
-                cs -= 1
-        print("E="+str(effective_times/select_times),end="\n")
-    # 关闭游标
+            cur.execute("INSERT INTO course_"+str(i)+"(serialNum,stuName,stu_id)\
+                          VALUES ("+str(j)+",'"+names[i][j]+"',"+str(ids[i][j])+");")
+        cur.execute("drop view if exists temp")
+        cur.execute("create view temp as select serialNum from course_" + str(i) + " where absentNum >=0")
+        cur.execute("select * from course_"+str(i)+" where absentNum >=0")
+        result = cur.fetchall()
+        for j in range(len(result)):
+            print(result[j])
+            sql = "update course_" + str(i) + " set absentNum=absentNum+1\
+                     where serialNum in (select * from temp);"
+            cur.execute(sql)
     cur.close()
     # 关闭数据库连接
     conn.close()
