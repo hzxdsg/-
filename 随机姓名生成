@@ -9,10 +9,3 @@ def random_name():
         name = random.choice(first_name) + random.choice(second_name)
         return name
 
-
-if __name__ == '__main__':
-    i=0
-    for i in range(0,270):
-     print(random_name())
-     i+=1
-#随机的
